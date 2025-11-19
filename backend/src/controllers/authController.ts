@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import jwt, { SignOptions } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import prisma from '../config/database';
 import { config } from '../config/config';
 import { AppError } from '../middleware/errorHandler';
@@ -25,14 +25,10 @@ export const register = async (req: Request, res: Response) => {
       },
     });
 
-    const signOptions: SignOptions = {
-      expiresIn: config.jwt.expiresIn
-    };
-
     const token = jwt.sign(
       { userId: user.id, role: user.role },
       config.jwt.secret,
-      signOptions
+      { expiresIn: config.jwt.expiresIn as string }
     );
 
     res.status(201).json({
@@ -69,14 +65,10 @@ export const login = async (req: Request, res: Response) => {
       throw new AppError('Account is disabled', 403);
     }
 
-    const signOptions: SignOptions = {
-      expiresIn: config.jwt.expiresIn
-    };
-
     const token = jwt.sign(
       { userId: user.id, role: user.role },
       config.jwt.secret,
-      signOptions
+      { expiresIn: config.jwt.expiresIn as string }
     );
 
     res.json({
