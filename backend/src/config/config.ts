@@ -2,7 +2,41 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export const config = {
+interface Config {
+  port: string | number;
+  nodeEnv: string;
+  jwt: {
+    secret: string;
+    expiresIn: string;
+  };
+  stripe: {
+    secretKey: string;
+    publishableKey: string;
+    webhookSecret: string;
+  };
+  paypal: {
+    clientId: string;
+    clientSecret: string;
+    mode: string;
+  };
+  klarna: {
+    username: string;
+    password: string;
+    region: string;
+  };
+  email: {
+    host: string;
+    port: number;
+    user: string;
+    pass: string;
+  };
+  upload: {
+    maxFileSize: number;
+    uploadPath: string;
+  };
+}
+
+export const config: Config = {
   port: process.env.PORT || 5000,
   nodeEnv: process.env.NODE_ENV || 'development',
   jwt: {
