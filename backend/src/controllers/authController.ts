@@ -25,10 +25,13 @@ export const register = async (req: Request, res: Response) => {
       },
     });
 
+    const signOptions: jwt.SignOptions = {
+      expiresIn: config.jwt.expiresIn
+    };
     const token = jwt.sign(
       { userId: user.id, role: user.role },
-      config.jwt.secret as string,
-      { expiresIn: config.jwt.expiresIn } as jwt.SignOptions
+      config.jwt.secret,
+      signOptions
     );
 
     res.status(201).json({
@@ -65,10 +68,13 @@ export const login = async (req: Request, res: Response) => {
       throw new AppError('Account is disabled', 403);
     }
 
+    const signOptions: jwt.SignOptions = {
+      expiresIn: config.jwt.expiresIn
+    };
     const token = jwt.sign(
       { userId: user.id, role: user.role },
-      config.jwt.secret as string,
-      { expiresIn: config.jwt.expiresIn } as jwt.SignOptions
+      config.jwt.secret,
+      signOptions
     );
 
     res.json({
